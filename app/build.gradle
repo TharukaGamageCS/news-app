@@ -1,6 +1,24 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android-extensions'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+def getSecret = { key ->
+
+    Properties props = new Properties()
+
+    if (getCurrentFlavor().empty) {
+        props.load(new FileInputStream(new File("config/dev.properties")))
+    } else if (getCurrentFlavor() == 'dev') {
+        props.load(new FileInputStream(new File("config/dev.properties")))
+    } else if (getCurrentFlavor() == 'prod') {
+        props.load(new FileInputStream(new File("config/prod.properties")))
+    }
+    return props[key]
 }
 
 android {
@@ -22,13 +40,45 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+        buildFeatures {
+            viewBinding true
+        }
+
+    applicationVariants.all { variant ->
+        variant.buildConfigField "String", "BASE_URL", getSecret('BASE_URL')
+        variant.buildConfigField "String", "API_KEY", getSecret('API_KEY')
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    def envConfig
+    flavorDimensions "api"
+
+    productFlavors {
+
+        dev {
+            // Assigns this product flavor to the 'version' flavor dimension.
+            envConfig = getProps("config/dev.properties")
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [applicationLabel: "@string/app_name_dev"]
+            dimension 'api'
+        }
+
+        prod {
+            envConfig = getProps("config/prod.properties")
+            manifestPlaceholders = [applicationLabel: "@string/app_name"]
+            dimension 'api'
+        }
+    }
+
 }
 
 dependencies {
@@ -37,7 +87,29 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    implementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
+    implementation 'com.google.dagger:hilt-android:2.38.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
+    kapt 'com.google.dagger:hilt-android-compiler:2.38.1'
+
+//    tests
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+    testImplementation 'org.mockito:mockito-inline:4.4.0'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2'
+
+    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
+    androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation('com.schibsted.spain:barista:3.6.0') {
+        exclude group: 'org.jetbrains.kotlin' // Only if you already use Kotlin in your project
+    }
+    androidTestImplementation 'com.jakewharton.espresso:okhttp3-idling-resource:1.0.0'
+    androidTestImplementation 'androidx.navigation:navigation-testing:2.5.2'
+    androidTestImplementation 'androidx.test:rules:1.2.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
 }
