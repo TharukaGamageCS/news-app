@@ -64,7 +64,4 @@ ext {
 
     config = getProps('config/' + flavor + '.properties')
 
-    libVersions = [
-            retrofit2                 : '2.7.1'
-    ]
 }
