@@ -16,11 +16,15 @@
     <color name="text_error">#8E041B</color>
     <color name="text_white">#FBF0F2</color>
     <color name="text_primary300">#9E454A</color>
+    <color name="text_link">#0046F8</color>
 
 <!--    background colors-->
     <color name="background_edit_text">#F8F3F4</color>
 
     <!--    button colors-->
     <color name="button_filled_primary">#C64249</color>
+    <color name="background_white">#FFFFFF</color>
+    <color name="icon_active">#FF3A44</color>
+    <color name="icon_inactive">#403333</color>
 
 </resources>

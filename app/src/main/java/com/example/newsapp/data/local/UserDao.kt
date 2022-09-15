@@ -10,7 +10,7 @@ import com.example.newsapp.data.models.User
 interface UserDao {
 
     @Query("SELECT * FROM users WHERE isLoggedIn == 1")
-    suspend fun getAll(): List<User>
+    suspend fun getAllLoggedIn(): List<User>
 
     @Query("SELECT * FROM users WHERE username == :userName AND password == :password")
     suspend fun getUser(userName:String, password:String): List<User>
@@ -20,5 +20,8 @@ interface UserDao {
 
     @Update
     suspend fun updateSuccessLogin(user: User)
+
+    @Update
+    suspend fun updateSuccessLogout(user: User)
 
 }
