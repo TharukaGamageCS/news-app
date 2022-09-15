@@ -20,27 +20,27 @@ class MainRepositoryShould: BaseUnitTest() {
     fun callUserDaoGetAllLoggedIn() = runTest {
         repository = MainRepository(userDao)
         repository.getLoginStatus().first()
-        verify(userDao, times(1)).getAll()
+        verify(userDao, times(1)).getAllLoggedIn()
     }
 
     @Test
     fun emitTrueIfLoggedIn() = runTest {
         repository = MainRepository(userDao)
-        `when`(userDao.getAll()).thenReturn(loggedInUsers)
+        `when`(userDao.getAllLoggedIn()).thenReturn(loggedInUsers)
         assertEquals(true, repository.getLoginStatus().first().getOrNull())
     }
 
     @Test
     fun emitFalseIfNotLoggedIn() = runTest {
         repository = MainRepository(userDao)
-        `when`(userDao.getAll()).thenReturn(emptyList())
+        `when`(userDao.getAllLoggedIn()).thenReturn(emptyList())
         assertEquals(false, repository.getLoginStatus().first().getOrNull())
     }
 
     @Test
     fun throwsErrorOnException() = runTest {
         repository = MainRepository(userDao)
-        `when`(userDao.getAll()).thenReturn(null)
+        `when`(userDao.getAllLoggedIn()).thenReturn(null)
         assertEquals("Something went wrong", repository.getLoginStatus().first().exceptionOrNull()?.message)
     }
 
