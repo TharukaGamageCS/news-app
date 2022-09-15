@@ -17,5 +17,6 @@
 
     <string name="cannot_be_empty">This field cannot be empty</string>
     <string name="too_short">Password is too short(min length 6)</string>
+    <string name="invalid_credentials">Invalid Credentials</string>
 
 </resources>

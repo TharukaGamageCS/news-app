@@ -16,18 +16,14 @@ class MainViewModelShould: BaseUnitTest() {
 
     @Test
     fun callHomeRepoGetLoginStatus(){
-
         viewModel = MainViewModel(repository)
-
         viewModel.loginStatus.getValueForTest()
         verify(repository, times(1)).getLoginStatus()
     }
 
     @Test
     fun emitTrueIfUserLoggedIn() = runTest{
-
         viewModel = MainViewModel(repository)
-
         `when`(repository.getLoginStatus()).then {
             flow {
                 emit(Result.success(true))
@@ -40,13 +36,11 @@ class MainViewModelShould: BaseUnitTest() {
     @Test
     fun emitFalseIfUserLoggedOut() = runTest {
         viewModel = MainViewModel(repository)
-
         `when`(repository.getLoginStatus()).then {
             flow {
                 emit(Result.success(false))
             }
         }
-
         assertEquals(false, repository.getLoginStatus().first().getOrNull())
     }
 
