@@ -12,11 +12,15 @@ def getSecret = { key ->
     Properties props = new Properties()
 
     if (getCurrentFlavor().empty) {
-        props.load(new FileInputStream(new File("config/dev.properties")))
-    } else if (getCurrentFlavor() == 'dev') {
-        props.load(new FileInputStream(new File("config/dev.properties")))
-    } else if (getCurrentFlavor() == 'prod') {
-        props.load(new FileInputStream(new File("config/prod.properties")))
+        props.load(new FileInputStream(new File("config/debug/dev.properties")))
+    } else if (getCurrentFlavor() == 'devdebug') {
+        props.load(new FileInputStream(new File("config/debug/dev.properties")))
+    } else if (getCurrentFlavor() == 'proddebug') {
+        props.load(new FileInputStream(new File("config/debug/prod.properties")))
+    }else if (getCurrentFlavor() == 'devrelease') {
+        props.load(new FileInputStream(new File("config/release/dev.properties")))
+    } else if (getCurrentFlavor() == 'prodrelease') {
+        props.load(new FileInputStream(new File("config/release/prod.properties")))
     }
     return props[key]
 }
@@ -71,21 +75,18 @@ android {
         jvmTarget = '1.8'
     }
 
-    def envConfig
     flavorDimensions "api"
 
     productFlavors {
-
         dev {
             // Assigns this product flavor to the 'version' flavor dimension.
-            envConfig = getProps("config/dev.properties")
             applicationIdSuffix ".dev"
             manifestPlaceholders = [applicationLabel: "@string/app_name_dev"]
             dimension 'api'
         }
 
         prod {
-            envConfig = getProps("config/prod.properties")
+            applicationIdSuffix ".prod"
             manifestPlaceholders = [applicationLabel: "@string/app_name"]
             dimension 'api'
         }

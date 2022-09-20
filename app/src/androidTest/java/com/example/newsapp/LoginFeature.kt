@@ -13,14 +13,6 @@ class LoginFeature:BaseAndroidTest() {
     val password:String =  "1234567"
 
     @Test
-    fun successfullySignedUp(){
-        onView(withId(R.id.et_username)).perform(typeText(userName))
-        onView(withId(R.id.et_password)).perform(typeText(password))
-        onView(withId(R.id.btn_login)).perform(click())
-        assertDisplayed(R.id.parent_home)
-    }
-
-    @Test
     fun showErrorOnEmptyUserName(){
         onView(withId(R.id.et_username)).perform(typeText(""))
         onView(withId(R.id.btn_login)).perform(click())
@@ -40,6 +32,20 @@ class LoginFeature:BaseAndroidTest() {
         onView(withId(R.id.et_password)).perform(typeText("123"))
         onView(withId(R.id.btn_login)).perform(click())
         assertDisplayed("Invalid Credentials")
+    }
+
+    @Test
+    fun successfullySignedUp(){
+        onView(withId(R.id.et_username)).perform(typeText(userName))
+        onView(withId(R.id.et_password)).perform(typeText(password))
+        onView(withId(R.id.btn_login)).perform(click())
+        assertDisplayed(R.id.parent_home)
+    }
+
+    @Test
+    fun gotoCreateAccountOnClickCreateAccount(){
+        onView(withId(R.id.tv_create_account)).perform(click())
+        assertDisplayed(R.id.btn_signup)
     }
 
 }

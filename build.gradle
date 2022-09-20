@@ -36,10 +36,9 @@ def getCurrentFlavor() {
     def flavor = ""
 
     gradle.getStartParameter().getTaskNames().any { name ->
-        project.logger.lifecycle("name ::::" + name)
         Matcher matcher = pattern.matcher(name)
         if (matcher.find()) {
-            flavor = matcher.group(1).toLowerCase()
+            flavor = matcher.group(0).toLowerCase()
             return true
         }
 
@@ -49,19 +48,34 @@ def getCurrentFlavor() {
 }
 
 def getProps(path) {
-    project.logger.lifecycle("::::" + path)
     Properties properties = new Properties()
     properties.load(new FileInputStream(file(path)))
     return properties
 }
 
 ext {
-    flavor = getCurrentFlavor()
-    project.logger.lifecycle("flavor::::" + flavor)
-    if (flavor.empty) {
+    flavor = ""
+    filePath = ""
+    buildFlavour = getCurrentFlavor()
+
+    if (buildFlavour.empty) {
         flavor = "dev"
+        filePath = "config/debug/"
+    }else if(buildFlavour == "devdebug"){
+        flavor = "dev"
+        filePath = "config/debug/"
+    }else if(buildFlavour == "devrelease"){
+        flavor = "dev"
+        filePath = "config/release/"
+    }else if(buildFlavour == "proddebug"){
+        flavor = "prod"
+        filePath = "config/debug/"
+    }else if(buildFlavour == "prodrelease"){
+        flavor = "prod"
+        filePath = "config/release/"
     }
 
-    config = getProps('config/' + flavor + '.properties')
+    project.logger.lifecycle("config_filepath::::" + filePath + flavor + '.properties')
+    config = getProps(filePath + flavor + '.properties')
 
 }
