@@ -2,12 +2,16 @@ package com.example.newsapp
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
 import com.example.newsapp.ui.activities.MainActivity
+import com.example.newsapp.utils.EspressoIdlingResource
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
 
@@ -17,15 +21,15 @@ abstract class BaseAndroidTest {
     val activityRule = ActivityTestRule(MainActivity::class.java)
         @Rule get
 
-//    @Before
-//    fun setUp() {
-//        IdlingRegistry.getInstance().register(idlingResource)
-//    }
+    @Before
+    fun setup(){
+        IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
+    }
 
-//    @After
-//    fun teardown() {
-//        IdlingRegistry.getInstance().unregister(idlingResource)
-//    }
+    @After
+    fun teardown(){
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.countingIdlingResource)
+    }
 
     fun nthChildOf(parentMatcher: Matcher<View>, childPosition: Int): Matcher<View> {
         return object : TypeSafeMatcher<View>() {

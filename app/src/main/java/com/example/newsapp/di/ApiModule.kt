@@ -2,6 +2,7 @@ package com.example.newsapp.di
 
 import com.example.newsapp.BuildConfig
 import com.example.newsapp.data.remote.NewsApi
+import com.jakewharton.espresso.OkHttp3IdlingResource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

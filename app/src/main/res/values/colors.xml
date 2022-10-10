@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="grey_50">#1E000000</color>
 
 <!--    text colors-->
     <color name="text_grey">#302A2B</color>
@@ -20,6 +21,7 @@
 
 <!--    background colors-->
     <color name="background_edit_text">#F8F3F4</color>
+    <color name="background_black_tp_50">#2A000000</color>
 
     <!--    button colors-->
     <color name="button_filled_primary">#C64249</color>

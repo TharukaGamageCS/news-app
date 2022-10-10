@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.data.models.Headline
 import com.example.newsapp.ui.viewHolders.HeadlineViewHolder
+import com.example.newsapp.utils.EspressoIdlingResource
 
 class HeadlineRecyclerViewAdapter(private val headlines:List<Headline>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

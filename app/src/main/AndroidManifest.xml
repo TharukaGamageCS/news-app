@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31"
-        android:name=".NewsApplication">
+        android:name=".NewsApplication"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true">
